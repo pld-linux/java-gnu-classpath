@@ -5,12 +5,12 @@
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
-Version:	0.10
-Release:	0.2
+Version:	0.11
+Release:	0.1
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
-# Source0-md5:	a59a5040f9c1237dbf27bfc668919943
+# Source0-md5:	fa0e0f2532b838e67f9d9f93d45556a2
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1.7
@@ -20,7 +20,6 @@ BuildRequires:	gtk+2-devel >= 2.2
 BuildRequires:	libart_lgpl-devel >= 2.1.0
 BuildRequires:	libtool >= 1.4.2
 BuildRequires:	texinfo >= 4.2
-BuildRequires:	unzip
 BuildRequires:	zip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -57,8 +56,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-unzip	$RPM_BUILD_ROOT%{_datadir}/classpath/glibj.zip -d $RPM_BUILD_ROOT%{_datadir}/classpath
-rm -rf	$RPM_BUILD_ROOT%{_datadir}/classpath/{api,glibj.zip}
 mv -f	$RPM_BUILD_ROOT%{_libdir}{/classpath/*,}
 
 %clean
@@ -69,8 +66,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README THANKYOU TODO
 %{_libdir}/libgtkpeer.la
 %attr(755,root,root) %{_libdir}/libgtkpeer.so.*.*.*
-%{_libdir}/libjavaawt.la
-%attr(755,root,root) %{_libdir}/libjavaawt.so.*.*.*
 %{_libdir}/libjavaio.la
 %attr(755,root,root) %{_libdir}/libjavaio.so.*.*.*
 %{_libdir}/libjavalang.la
@@ -83,5 +78,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libjavanio.so.*.*.*
 %{_libdir}/libjavautil.la
 %attr(755,root,root) %{_libdir}/libjavautil.so.*.*.*
-%{_datadir}/classpath
+%dir %{_datadir}/classpath
+%{_datadir}/classpath/glibj.zip
 %{_infodir}/*
