@@ -9,7 +9,7 @@ Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
 # Source0-md5:	ce1f7fbe6f2e3b738bae3b46f01a9670
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake >= 1.7
+BuildRequires:	automake >= 1:1.7
 BuildRequires:	jikes >= 1.18
 BuildRequires:	gcc-c++
 BuildRequires:	gdk-pixbuf-devel
