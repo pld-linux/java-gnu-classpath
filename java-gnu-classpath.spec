@@ -7,6 +7,7 @@ License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
 # Source0-md5:	9920904c15f2cdb15e38c4a44968c4f9
+Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -62,32 +63,31 @@ statyczne.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure \
-	--enable-static \
-	--with-jikes \
+	--disable-cni \
+	--disable-debug \
+	--enable-gtk-peer \
 	--enable-java \
 	--enable-jni \
-	--disable-cni \
-	--enable-gtk-peer \
 	--enable-load-library \
-	--disable-debug
+	--enable-static \
+	--with-jikes
 
-%{__make}
+%{__make} \
+	pkglibdir=%{_libdir} \
+	pkgdatadir=%{_javadir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-mv -f $RPM_BUILD_ROOT%{_libdir}{/classpath/*,}
-for f in libgtkpeer libjavaio libjavalang libjavalangreflect libjavanet libjavanio libjavautil; do
-	perl -pi -e "s:^libdir='.*:libdir='%{_libdir}':" $RPM_BUILD_ROOT%{_libdir}/$f.la
-done
-mv -f $RPM_BUILD_ROOT{%{_datadir}/classpath/glibj.zip,%{_javadir}}
+	DESTDIR=$RPM_BUILD_ROOT \
+	pkglibdir=%{_libdir} \
+	pkgdatadir=%{_javadir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -106,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libjavanio.so.*.*.*
 %attr(755,root,root) %{_libdir}/libjavautil.so.*.*.*
 %{_javadir}/glibj.zip
-%{_infodir}/*
+%{_infodir}/*.info*
 
 %files devel
 %defattr(644,root,root,755)
