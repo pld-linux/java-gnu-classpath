@@ -6,7 +6,7 @@ Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
 Version:	0.10
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
@@ -20,6 +20,7 @@ BuildRequires:	gtk+2-devel >= 2.2
 BuildRequires:	libart_lgpl-devel >= 2.1.0
 BuildRequires:	libtool >= 1.4.2
 BuildRequires:	texinfo >= 4.2
+BuildRequires:	unzip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -52,14 +53,12 @@ g³ówne klasy niezbêdne dla kompletnej funkcjonalno¶ci ¶rodowiska Javy.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_javadir}
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+unzip	$RPM_BUILD_ROOT%{_datadir}/classpath/glibj.zip -d $RPM_BUILD_ROOT%{_datadir}/classpath
+rm -rf	$RPM_BUILD_ROOT%{_datadir}/classpath/{api,glibj.zip}
 mv -f	$RPM_BUILD_ROOT%{_libdir}{/classpath/*,}
-mv -f	$RPM_BUILD_ROOT%{_datadir}/classpath/glibj.zip \
-	$RPM_BUILD_ROOT%{_javadir}/classpath.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,5 +82,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libjavanio.so.*.*.*
 %{_libdir}/libjavautil.la
 %attr(755,root,root) %{_libdir}/libjavautil.so.*.*.*
-%{_javadir}/classpath.jar
+%{_datadir}/classpath
 %{_infodir}/*
