@@ -86,7 +86,7 @@ install -d $RPM_BUILD_ROOT%{_javadir}
 
 mv -f $RPM_BUILD_ROOT%{_libdir}{/classpath/*,}
 for f in libgtkpeer libjavaio libjavalang libjavalangreflect libjavanet libjavanio libjavautil; do
-    perl -pi -e "s:^libdir='.*:libdir='%{_libdir}':" $RPM_BUILD_ROOT%{_libdir}/$f.la
+	perl -pi -e "s:^libdir='.*:libdir='%{_libdir}':" $RPM_BUILD_ROOT%{_libdir}/$f.la
 done
 mv -f $RPM_BUILD_ROOT{%{_datadir}/classpath/glibj.zip,%{_javadir}}
 
