@@ -21,6 +21,7 @@ BuildRequires:	libart_lgpl-devel >= 2.1.0
 BuildRequires:	libtool >= 1.4.2
 BuildRequires:	texinfo >= 4.2
 BuildRequires:	unzip
+BuildRequires:	zip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
