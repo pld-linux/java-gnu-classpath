@@ -1,12 +1,8 @@
-#
-# TODO:
-#		- classpathx (spec or source1+subpkg?)
-#
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
 Version:	0.11
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
@@ -55,6 +51,7 @@ g³ówne klasy niezbêdne dla kompletnej funkcjonalno¶ci ¶rodowiska Javy.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_javadir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -63,6 +60,7 @@ mv -f $RPM_BUILD_ROOT%{_libdir}{/classpath/*,}
 for f in libgtkpeer libjavaio libjavalang libjavalangreflect libjavanet libjavanio libjavautil; do
     perl -pi -e "s:^libdir='.*:libdir='%{_libdir}':" $RPM_BUILD_ROOT%{_libdir}/$f.la
 done
+mv -f $RPM_BUILD_ROOT{%{_datadir}/classpath/glibj.zip,%{_javadir}}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -94,6 +92,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libjavautil.la
 %{_libdir}/libjavautil.so
 %attr(755,root,root) %{_libdir}/libjavautil.so.*.*.*
-%dir %{_datadir}/classpath
-%{_datadir}/classpath/glibj.zip
+%{_javadir}/glibj.zip
 %{_infodir}/*
