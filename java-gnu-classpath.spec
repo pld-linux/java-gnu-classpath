@@ -15,10 +15,12 @@ URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1.7
 BuildRequires:	jikes >= 1.18
+BuildRequires:	gcc-c++
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gtk+2-devel >= 2.2
 BuildRequires:	libart_lgpl-devel >= 2.1.0
 BuildRequires:	libtool >= 1.4.2
+BuildRequires:	pkgconfig
 BuildRequires:	texinfo >= 4.2
 BuildRequires:	zip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
