@@ -7,6 +7,7 @@ License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
 # Source0-md5:	fa0e0f2532b838e67f9d9f93d45556a2
+# Source0-size:	3967941
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1.7
