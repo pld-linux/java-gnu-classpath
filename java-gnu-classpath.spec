@@ -13,7 +13,7 @@ BuildRequires:	automake >= 1.7
 BuildRequires:	jikes >= 1.18
 BuildRequires:	gcc-c++
 BuildRequires:	gdk-pixbuf-devel
-BuildRequires:	gtk+2-devel >= 2.4
+BuildRequires:	gtk+2-devel >= 2:2.4
 BuildRequires:	libart_lgpl-devel >= 2.1.0
 BuildRequires:	libtool >= 1.4.2
 BuildRequires:	perl-base
