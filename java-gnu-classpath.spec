@@ -2,7 +2,7 @@ Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
 Version:	0.11
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
@@ -34,11 +34,38 @@ wolnego j±dra klas bibliotek do wykorzystania z wirtualnymi maszynami
 i kompilatorami dla jêzyka Java. Zawiera wszystkie natywne metody i
 g³ówne klasy niezbêdne dla kompletnej funkcjonalno¶ci ¶rodowiska Javy.
 
+%package devel
+Summary:	Development files for GNU Classpath
+Summary(pl):	Pliki dla programistów u¿ywaj±cych GNU Classpath
+Group:		Development/Libraries
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description devel
+GNU Classpath (Essential Libraries for Java) - development files.
+
+%description devel -l pl
+GNU Classpath (Najwa¿niejsze biblioteki dla Javy) - pliki dla
+programistów.
+
+%package static
+Summary:	Static libraries for GNU Classpath
+Summary(pl):	Biblioteki statyczne dla GNU Classpath
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+
+%description static
+GNU Classpath (Essential Libraries for Java) - static libraries.
+
+%description static -l pl
+GNU Classpath (Najwa¿niejsze biblioteki dla Javy) - biblioteki
+statyczne.
+
 %prep
 %setup -q
 
 %build
 %configure \
+	--enable-static \
 	--with-jikes \
 	--enable-java \
 	--enable-jni \
@@ -71,26 +98,39 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKYOU TODO
-%{_libdir}/libgtkpeer.la
-%{_libdir}/libgtkpeer.so
 %attr(755,root,root) %{_libdir}/libgtkpeer.so.*.*.*
-%{_libdir}/libjavaio.la
-%{_libdir}/libjavaio.so
 %attr(755,root,root) %{_libdir}/libjavaio.so.*.*.*
-%{_libdir}/libjavalang.la
-%{_libdir}/libjavalang.so
 %attr(755,root,root) %{_libdir}/libjavalang.so.*.*.*
-%{_libdir}/libjavalangreflect.la
-%{_libdir}/libjavalangreflect.so
 %attr(755,root,root) %{_libdir}/libjavalangreflect.so.*.*.*
-%{_libdir}/libjavanet.la
-%{_libdir}/libjavanet.so
 %attr(755,root,root) %{_libdir}/libjavanet.so.*.*.*
-%{_libdir}/libjavanio.la
-%{_libdir}/libjavanio.so
 %attr(755,root,root) %{_libdir}/libjavanio.so.*.*.*
-%{_libdir}/libjavautil.la
-%{_libdir}/libjavautil.so
 %attr(755,root,root) %{_libdir}/libjavautil.so.*.*.*
 %{_javadir}/glibj.zip
 %{_infodir}/*
+
+%files devel
+%defattr(644,root,root,755)
+%{_libdir}/libgtkpeer.la
+%{_libdir}/libgtkpeer.so
+%{_libdir}/libjavaio.la
+%{_libdir}/libjavaio.so
+%{_libdir}/libjavalang.la
+%{_libdir}/libjavalang.so
+%{_libdir}/libjavalangreflect.la
+%{_libdir}/libjavalangreflect.so
+%{_libdir}/libjavanet.la
+%{_libdir}/libjavanet.so
+%{_libdir}/libjavanio.la
+%{_libdir}/libjavanio.so
+%{_libdir}/libjavautil.la
+%{_libdir}/libjavautil.so
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libgtkpeer.a
+%{_libdir}/libjavaio.a
+%{_libdir}/libjavalang.a
+%{_libdir}/libjavalangreflect.a
+%{_libdir}/libjavanet.a
+%{_libdir}/libjavanio.a
+%{_libdir}/libjavautil.a
