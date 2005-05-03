@@ -1,12 +1,12 @@
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
-Version:	0.14
+Version:	0.15
 Release:	1
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
-# Source0-md5:	227beb20b927c042628539601c867614
+# Source0-md5:	036c23aec7cb53a43b7b9dc63a92fbbe
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	autoconf >= 2.59
@@ -68,7 +68,7 @@ statyczne.
 %build
 %configure \
 	--disable-cni \
-	--disable-debug \
+	--%{?debug:en}%{!?debug:dis}able-debug \
 	--enable-gtk-peer \
 	--enable-java \
 	--enable-jni \
