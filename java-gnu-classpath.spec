@@ -3,9 +3,6 @@
 %bcond_without	gcj	# use jikes instead of gcj
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
 #
-# TODO:
-#		- fix broken build with gcj on powerpc and reverse bcond.
-#
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
