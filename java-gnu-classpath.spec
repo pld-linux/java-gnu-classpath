@@ -1,8 +1,12 @@
+#
+# Conditional build:
+%bcond_without	gcj	# use jikes instead of gcj
+#
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
 Version:	0.15
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
@@ -11,10 +15,12 @@ Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
-BuildRequires:	jikes >= 1.18
 BuildRequires:	gcc-c++
+%{?with_gcj:BuildRequires:	gcc-java}
 BuildRequires:	gdk-pixbuf-devel
+BuildRequires:	gjdoc
 BuildRequires:	gtk+2-devel >= 2:2.4
+%{!?with_gcj:BuildRequires:	jikes >= 1.18}
 BuildRequires:	libart_lgpl-devel >= 2.1.0
 BuildRequires:	libtool >= 1.4.2
 BuildRequires:	perl-base
@@ -74,7 +80,16 @@ statyczne.
 	--enable-jni \
 	--enable-load-library \
 	--enable-static \
-	--with-jikes
+	--without-ecj \
+%if %{with gcj}
+	--with-gcj \
+	--without-jikes \
+%else
+	--without-gcj \
+	--with-jikes \
+%endif
+	--with-gjdoc \
+	--disable-examples
 
 %{__make} \
 	pkglibdir=%{_libdir} \
