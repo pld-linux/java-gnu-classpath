@@ -1,12 +1,16 @@
 #
 # Conditional build:
 %bcond_without	gcj	# use jikes instead of gcj
+%bcond_with	apidocs	# prepare API documentation (over 200MB)
+#
+# TODO:
+#		- fix broken build with gcj on powerpc and reverse bcond.
 #
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
 Version:	0.15
-Release:	2
+Release:	2.1
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
@@ -18,7 +22,7 @@ BuildRequires:	automake >= 1:1.7
 BuildRequires:	gcc-c++
 %{?with_gcj:BuildRequires:	gcc-java}
 BuildRequires:	gdk-pixbuf-devel
-BuildRequires:	gjdoc
+%{?with_apidocs:BuildRequires:	gjdoc}
 BuildRequires:	gtk+2-devel >= 2:2.4
 %{!?with_gcj:BuildRequires:	jikes >= 1.18}
 BuildRequires:	libart_lgpl-devel >= 2.1.0
@@ -40,6 +44,24 @@ GNU Classpath (Najwa¿niejsze biblioteki javy) to projekt stworzenia
 wolnego j±dra klas bibliotek do wykorzystania z wirtualnymi maszynami
 i kompilatorami dla jêzyka Java. Zawiera wszystkie natywne metody i
 g³ówne klasy niezbêdne dla kompletnej funkcjonalno¶ci ¶rodowiska Javy.
+
+%package apidocs
+Summary:	API documentation
+Summary(pl):	Dokumentacja API
+Group:		Documentation
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description apidocs
+Annotated reference of GNU Classpath libraries programming interface including:
+- class lists
+- class members
+- namespaces
+
+%description apidocs -l pl
+Dokumentacja interfejsu programowania bibliotek GNU Classpath z przypisami.
+Zawiera:
+- listy klas i ich sk³adników
+- listê przestrzeni nazw (namespace)
 
 %package devel
 Summary:	Development files for GNU Classpath
@@ -88,7 +110,7 @@ statyczne.
 	--without-gcj \
 	--with-jikes \
 %endif
-	--with-gjdoc \
+	--with%{!?with_apidocs:out}-gjdoc \
 	--disable-examples
 
 %{__make} \
@@ -97,12 +119,16 @@ statyczne.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_javadir}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{name}-%{version}-apidocs}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	pkglibdir=%{_libdir} \
 	pkgdatadir=%{_javadir}
+
+%if %{with apidocs}
+cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}-apidocs
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -122,6 +148,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libjavautil.so.*.*.*
 %{_javadir}/glibj.zip
 %{_infodir}/*.info*
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%{_javadocdir}/%{name}-%{version}-apidocs
+%endif
 
 %files devel
 %defattr(644,root,root,755)
