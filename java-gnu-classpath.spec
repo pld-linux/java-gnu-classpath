@@ -18,7 +18,6 @@ BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
 BuildRequires:	gcc-c++
 %{?with_gcj:BuildRequires:	gcc-java}
-BuildRequires:	gdk-pixbuf-devel
 %{?with_apidocs:BuildRequires:	gjdoc}
 BuildRequires:	gtk+2-devel >= 2:2.4
 %{!?with_gcj:BuildRequires:	jikes >= 1.18}
