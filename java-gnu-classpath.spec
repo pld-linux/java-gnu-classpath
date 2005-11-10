@@ -6,22 +6,22 @@
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
 Name:		classpath
-Version:	0.16
+Version:	0.19
 Release:	1
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
-# Source0-md5:	220a9c86719a2c6bd7ba9b9877495113
+# Source0-md5:	0b93b1c1dd3d33ef7fb6a47dbb29e41d
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
+BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
 BuildRequires:	gcc-c++
-%{?with_gcj:BuildRequires:	gcc-java}
+%{?with_gcj:BuildRequires:	gcc-java >= 5:4.0.2}
 %{?with_apidocs:BuildRequires:	gjdoc}
 BuildRequires:	gtk+2-devel >= 2:2.4
 %{!?with_gcj:BuildRequires:	jikes >= 1.18}
-BuildRequires:	libart_lgpl-devel >= 2.1.0
 BuildRequires:	libtool >= 1.4.2
 BuildRequires:	perl-base
 BuildRequires:	pkgconfig
@@ -129,21 +129,25 @@ cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}-apidocs
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post devel
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun	devel
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README THANKYOU TODO
-%attr(755,root,root) %{_libdir}/libgtkpeer.so.*.*.*
-%attr(755,root,root) %{_libdir}/libjavaio.so.*.*.*
-%attr(755,root,root) %{_libdir}/libjavalang.so.*.*.*
-%attr(755,root,root) %{_libdir}/libjavalangreflect.so.*.*.*
-%attr(755,root,root) %{_libdir}/libjavanet.so.*.*.*
-%attr(755,root,root) %{_libdir}/libjavanio.so.*.*.*
-%attr(755,root,root) %{_libdir}/libjavautil.so.*.*.*
-%{_javadir}/glibj.zip
-%{_infodir}/*.info*
+%doc AUTHORS BUGS ChangeLog NEWS README THANKYOU TODO
+%attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libjavaio.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libjavalang.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libjavalangreflect.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libjavanet.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libjavanio.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libjavautil.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libjawtgnu.so.*.*.*
+%{_datadir}/classpath/glibj.zip
 
 %if %{with apidocs}
 %files apidocs
@@ -153,27 +157,35 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libgtkpeer.la
-%{_libdir}/libgtkpeer.so
-%{_libdir}/libjavaio.la
-%{_libdir}/libjavaio.so
-%{_libdir}/libjavalang.la
-%{_libdir}/libjavalang.so
-%{_libdir}/libjavalangreflect.la
-%{_libdir}/libjavalangreflect.so
-%{_libdir}/libjavanet.la
-%{_libdir}/libjavanet.so
-%{_libdir}/libjavanio.la
-%{_libdir}/libjavanio.so
-%{_libdir}/libjavautil.la
-%{_libdir}/libjavautil.so
+%attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
+%attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so
+%attr(755,root,root) %{_libdir}/classpath/libjavaio.so
+%attr(755,root,root) %{_libdir}/classpath/libjavalang.so
+%attr(755,root,root) %{_libdir}/classpath/libjavalangreflect.so
+%attr(755,root,root) %{_libdir}/classpath/libjavanet.so
+%attr(755,root,root) %{_libdir}/classpath/libjavanio.so
+%attr(755,root,root) %{_libdir}/classpath/libjavautil.so
+%attr(755,root,root) %{_libdir}/classpath/libjawtgnu.so
+%{_libdir}/classpath/libgjsmalsa.la
+%{_libdir}/classpath/libgtkpeer.la
+%{_libdir}/classpath/libjavaio.la
+%{_libdir}/classpath/libjavalang.la
+%{_libdir}/classpath/libjavalangreflect.la
+%{_libdir}/classpath/libjavanet.la
+%{_libdir}/classpath/libjavanio.la
+%{_libdir}/classpath/libjavautil.la
+%{_libdir}/classpath/libjawtgnu.la
+%{_includedir}/*.h
+%{_infodir}/*.info*
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libgtkpeer.a
-%{_libdir}/libjavaio.a
-%{_libdir}/libjavalang.a
-%{_libdir}/libjavalangreflect.a
-%{_libdir}/libjavanet.a
-%{_libdir}/libjavanio.a
-%{_libdir}/libjavautil.a
+%{_libdir}/classpath/libgjsmalsa.a
+%{_libdir}/classpath/libgtkpeer.a
+%{_libdir}/classpath/libjavaio.a
+%{_libdir}/classpath/libjavalang.a
+%{_libdir}/classpath/libjavalangreflect.a
+%{_libdir}/classpath/libjavanet.a
+%{_libdir}/classpath/libjavanio.a
+%{_libdir}/classpath/libjavautil.a
+%{_libdir}/classpath/libjawtgnu.a
