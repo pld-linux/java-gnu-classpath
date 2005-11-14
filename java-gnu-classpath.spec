@@ -138,6 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README THANKYOU TODO
+%dir %{_libdir}/classpath
 %attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so.*.*.*
 %attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so.*.*.*
 %attr(755,root,root) %{_libdir}/classpath/libjavaio.so.*.*.*
