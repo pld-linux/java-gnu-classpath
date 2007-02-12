@@ -4,7 +4,7 @@
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
 #
 Summary:	GNU Classpath (Essential Libraries for Java)
-Summary(pl.UTF-8):   GNU Classpath (Najważniejsze biblioteki dla Javy)
+Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		classpath
 Version:	0.19
 Release:	1
@@ -43,7 +43,7 @@ główne klasy niezbędne dla kompletnej funkcjonalności środowiska Javy.
 
 %package apidocs
 Summary:	API documentation
-Summary(pl.UTF-8):   Dokumentacja API
+Summary(pl.UTF-8):	Dokumentacja API
 Group:		Documentation
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -61,7 +61,7 @@ Zawiera:
 
 %package devel
 Summary:	Development files for GNU Classpath
-Summary(pl.UTF-8):   Pliki dla programistów używających GNU Classpath
+Summary(pl.UTF-8):	Pliki dla programistów używających GNU Classpath
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -74,7 +74,7 @@ programistów.
 
 %package static
 Summary:	Static libraries for GNU Classpath
-Summary(pl.UTF-8):   Biblioteki statyczne dla GNU Classpath
+Summary(pl.UTF-8):	Biblioteki statyczne dla GNU Classpath
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
