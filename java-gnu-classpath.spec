@@ -4,7 +4,7 @@
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
 #
 Summary:	GNU Classpath (Essential Libraries for Java)
-Summary(pl):	GNU Classpath (Najwa¿niejsze biblioteki dla Javy)
+Summary(pl.UTF-8):   GNU Classpath (NajwaÅ¼niejsze biblioteki dla Javy)
 Name:		classpath
 Version:	0.19
 Release:	1
@@ -35,15 +35,15 @@ free core class libraries for use with virtual machines and compilers
 for the Java language. It includes all native methods and core classes
 necessary for a completely functional Java runtime.
 
-%description -l pl
-GNU Classpath (Najwa¿niejsze biblioteki javy) to projekt stworzenia
-wolnego j±dra klas bibliotek do wykorzystania z wirtualnymi maszynami
-i kompilatorami dla jêzyka Java. Zawiera wszystkie natywne metody i
-g³ówne klasy niezbêdne dla kompletnej funkcjonalno¶ci ¶rodowiska Javy.
+%description -l pl.UTF-8
+GNU Classpath (NajwaÅ¼niejsze biblioteki javy) to projekt stworzenia
+wolnego jÄ…dra klas bibliotek do wykorzystania z wirtualnymi maszynami
+i kompilatorami dla jÄ™zyka Java. Zawiera wszystkie natywne metody i
+gÅ‚Ã³wne klasy niezbÄ™dne dla kompletnej funkcjonalnoÅ›ci Å›rodowiska Javy.
 
 %package apidocs
 Summary:	API documentation
-Summary(pl):	Dokumentacja API
+Summary(pl.UTF-8):   Dokumentacja API
 Group:		Documentation
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -53,36 +53,36 @@ Annotated reference of GNU Classpath libraries programming interface including:
 - class members
 - namespaces
 
-%description apidocs -l pl
+%description apidocs -l pl.UTF-8
 Dokumentacja interfejsu programowania bibliotek GNU Classpath z przypisami.
 Zawiera:
-- listy klas i ich sk³adników
-- listê przestrzeni nazw (namespace)
+- listy klas i ich skÅ‚adnikÃ³w
+- listÄ™ przestrzeni nazw (namespace)
 
 %package devel
 Summary:	Development files for GNU Classpath
-Summary(pl):	Pliki dla programistów u¿ywaj±cych GNU Classpath
+Summary(pl.UTF-8):   Pliki dla programistÃ³w uÅ¼ywajÄ…cych GNU Classpath
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 GNU Classpath (Essential Libraries for Java) - development files.
 
-%description devel -l pl
-GNU Classpath (Najwa¿niejsze biblioteki dla Javy) - pliki dla
-programistów.
+%description devel -l pl.UTF-8
+GNU Classpath (NajwaÅ¼niejsze biblioteki dla Javy) - pliki dla
+programistÃ³w.
 
 %package static
 Summary:	Static libraries for GNU Classpath
-Summary(pl):	Biblioteki statyczne dla GNU Classpath
+Summary(pl.UTF-8):   Biblioteki statyczne dla GNU Classpath
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 GNU Classpath (Essential Libraries for Java) - static libraries.
 
-%description static -l pl
-GNU Classpath (Najwa¿niejsze biblioteki dla Javy) - biblioteki
+%description static -l pl.UTF-8
+GNU Classpath (NajwaÅ¼niejsze biblioteki dla Javy) - biblioteki
 statyczne.
 
 %prep
