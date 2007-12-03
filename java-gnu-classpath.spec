@@ -1,31 +1,51 @@
 #
+# TODO: split (awt-gtk, midi-alsa, midi-dssi, ???-qt, ???-gconf, ???-gstreamer, browser???, tools, devel-tools)
+#
 # Conditional build:
-%bcond_without	gcj	# use jikes instead of gcj
+%bcond_with	jikes	# use jikes instead of gcj
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
 #
+%if %{without jikes}
+%define	with_gcj	1
+%endif
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		classpath
-Version:	0.19
-Release:	1
-License:	GPL v2
+Version:	0.96.1
+Release:	0.1
+License:	GPL v2+ with linking exception
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
-# Source0-md5:	0b93b1c1dd3d33ef7fb6a47dbb29e41d
+# Source0-md5:	a2ffb40f13fc76c2dda8f8311b30add9
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
+BuildRequires:	QtCore-devel >= 4.1.0
+BuildRequires:	QtGui-devel >= 4.1.0
+BuildRequires:	GConf2-devel >= 2.6.0
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
-BuildRequires:	gcc-c++
+BuildRequires:	cairo-devel >= 1.1.8
+BuildRequires:	dssi
 %{?with_gcj:BuildRequires:	gcc-java >= 5:4.0.2}
 %{?with_apidocs:BuildRequires:	gjdoc}
-BuildRequires:	gtk+2-devel >= 2:2.4
-%{!?with_gcj:BuildRequires:	jikes >= 1.18}
+BuildRequires:	gstreamer-devel >= 0.10.10
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
+BuildRequires:	gtk+2-devel >= 2:2.8
+%{!?with_jikes:BuildRequires:	jikes >= 1.18}
+BuildRequires:	libmagic-devel
+BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 1.4.2
+BuildRequires:	libxml2-devel >= 1:2.6.8
+BuildRequires:	libxslt-devel >= 1.1.11
 BuildRequires:	perl-base
 BuildRequires:	pkgconfig
+BuildRequires:	qt4-build >= 4.1.0
 BuildRequires:	texinfo >= 4.2
+BuildRequires:	xorg-lib-libXrandr-devel
+BuildRequires:	xorg-lib-libXrender-devel
+BuildRequires:	xorg-lib-libXtst-devel
+BuildRequires:	xulrunner-devel >= 1.8
 BuildRequires:	zip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -36,10 +56,11 @@ for the Java language. It includes all native methods and core classes
 necessary for a completely functional Java runtime.
 
 %description -l pl.UTF-8
-GNU Classpath (Najważniejsze biblioteki javy) to projekt stworzenia
-wolnego jądra klas bibliotek do wykorzystania z wirtualnymi maszynami
-i kompilatorami dla języka Java. Zawiera wszystkie natywne metody i
-główne klasy niezbędne dla kompletnej funkcjonalności środowiska Javy.
+GNU Classpath (najważniejsze biblioteki Javy) to projekt stworzenia
+wolnodostępnych bibliotek klas podstawowych do wykorzystania z
+wirtualnymi maszynami i kompilatorami języka Java. Zawiera wszystkie
+natywne metody i główne klasy niezbędne dla kompletnej funkcjonalności
+środowiska Javy.
 
 %package apidocs
 Summary:	API documentation
@@ -63,7 +84,8 @@ Zawiera:
 Summary:	Development files for GNU Classpath
 Summary(pl.UTF-8):	Pliki dla programistów używających GNU Classpath
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Obsoletes:	classpath-static
+# doesn't require base
 
 %description devel
 GNU Classpath (Essential Libraries for Java) - development files.
@@ -72,59 +94,41 @@ GNU Classpath (Essential Libraries for Java) - development files.
 GNU Classpath (Najważniejsze biblioteki dla Javy) - pliki dla
 programistów.
 
-%package static
-Summary:	Static libraries for GNU Classpath
-Summary(pl.UTF-8):	Biblioteki statyczne dla GNU Classpath
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
-
-%description static
-GNU Classpath (Essential Libraries for Java) - static libraries.
-
-%description static -l pl.UTF-8
-GNU Classpath (Najważniejsze biblioteki dla Javy) - biblioteki
-statyczne.
-
 %prep
 %setup -q
 %patch0 -p1
 
 %build
 %configure \
-	--disable-cni \
+	MOC=qt4-moc \
 	--%{?debug:en}%{!?debug:dis}able-debug \
+	--enable-gstreamer-peer \
 	--enable-gtk-peer \
 	--enable-java \
 	--enable-jni \
 	--enable-load-library \
-	--enable-static \
+	--enable-qt-peer \
+	--enable-xmlj \
 	--without-ecj \
-%if %{with gcj}
-	--with-gcj \
-	--without-jikes \
-%else
-	--without-gcj \
-	--with-jikes \
-%endif
+	--with%{!?with_gcj:out}-gcj \
+	--with%{!?with_jikes:out}-jikes \
 	--with%{!?with_apidocs:out}-gjdoc \
 	--disable-examples
 
-%{__make} \
-	pkglibdir=%{_libdir} \
-	pkgdatadir=%{_javadir}
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{name}-%{version}-apidocs}
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	pkglibdir=%{_libdir} \
-	pkgdatadir=%{_javadir}
+	DESTDIR=$RPM_BUILD_ROOT
 
 %if %{with apidocs}
 cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}-apidocs
 %endif
+
+rm -f $RPM_BUILD_ROOT%{_libdir}/classpath/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -139,16 +143,57 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README THANKYOU TODO
 %dir %{_libdir}/classpath
-%attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libjavaio.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libjavalang.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libjavalangreflect.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libjavanet.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libjavanio.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libjavautil.so.*.*.*
-%attr(755,root,root) %{_libdir}/classpath/libjawtgnu.so.*.*.*
+%attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so
+%attr(755,root,root) %{_libdir}/classpath/libgconfpeer.so
+%attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
+%attr(755,root,root) %{_libdir}/classpath/libgjsmdssi.so
+%attr(755,root,root) %{_libdir}/classpath/libgstreamerpeer.so
+%attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so
+%attr(755,root,root) %{_libdir}/classpath/libjavaio.so*
+%attr(755,root,root) %{_libdir}/classpath/libjavalang.so*
+%attr(755,root,root) %{_libdir}/classpath/libjavalangmanagement.so*
+%attr(755,root,root) %{_libdir}/classpath/libjavalangreflect.so*
+%attr(755,root,root) %{_libdir}/classpath/libjavanet.so*
+%attr(755,root,root) %{_libdir}/classpath/libjavanio.so*
+%attr(755,root,root) %{_libdir}/classpath/libjavautil.so*
+%attr(755,root,root) %{_libdir}/classpath/libjawt.so
+%attr(755,root,root) %{_libdir}/classpath/libqtpeer.so
+%attr(755,root,root) %{_libdir}/classpath/libxmlj.so*
+%dir %{_libdir}/security
+%{_libdir}/security/classpath.security
+%{_libdir}/logging.properties
+%dir %{_datadir}/classpath
 %{_datadir}/classpath/glibj.zip
+%{_datadir}/classpath/tools.zip
+
+# tools
+%attr(755,root,root) %{_bindir}/gappletviewer
+%attr(755,root,root) %{_bindir}/gkeytool
+%attr(755,root,root) %{_bindir}/gorbd
+%attr(755,root,root) %{_bindir}/grmid
+%attr(755,root,root) %{_bindir}/grmiregistry
+%attr(755,root,root) %{_bindir}/gtnameserv
+%{_mandir}/man1/gappletviewer.1*
+%{_mandir}/man1/gkeytool.1*
+%{_mandir}/man1/gorbd.1*
+%{_mandir}/man1/grmid.1*
+%{_mandir}/man1/grmiregistry.1*
+%{_mandir}/man1/gtnameserv.1*
+
+# tools-devel
+%attr(755,root,root) %{_bindir}/gjar
+%attr(755,root,root) %{_bindir}/gjarsigner
+%attr(755,root,root) %{_bindir}/gjavah
+%attr(755,root,root) %{_bindir}/gnative2ascii
+%attr(755,root,root) %{_bindir}/grmic
+%attr(755,root,root) %{_bindir}/gserialver
+%{_mandir}/man1/gjar.1*
+%{_mandir}/man1/gjarsigner.1*
+%{_mandir}/man1/gjavah.1*
+%{_mandir}/man1/gnative2ascii.1*
+%{_mandir}/man1/gserialver.1*
+# no bin
+#%{_mandir}/man1/gcjh.1*
 
 %if %{with apidocs}
 %files apidocs
@@ -158,35 +203,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
-%attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so
-%attr(755,root,root) %{_libdir}/classpath/libjavaio.so
-%attr(755,root,root) %{_libdir}/classpath/libjavalang.so
-%attr(755,root,root) %{_libdir}/classpath/libjavalangreflect.so
-%attr(755,root,root) %{_libdir}/classpath/libjavanet.so
-%attr(755,root,root) %{_libdir}/classpath/libjavanio.so
-%attr(755,root,root) %{_libdir}/classpath/libjavautil.so
-%attr(755,root,root) %{_libdir}/classpath/libjawtgnu.so
-%{_libdir}/classpath/libgjsmalsa.la
-%{_libdir}/classpath/libgtkpeer.la
-%{_libdir}/classpath/libjavaio.la
-%{_libdir}/classpath/libjavalang.la
-%{_libdir}/classpath/libjavalangreflect.la
-%{_libdir}/classpath/libjavanet.la
-%{_libdir}/classpath/libjavanio.la
-%{_libdir}/classpath/libjavautil.la
-%{_libdir}/classpath/libjawtgnu.la
-%{_includedir}/*.h
-%{_infodir}/*.info*
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/classpath/libgjsmalsa.a
-%{_libdir}/classpath/libgtkpeer.a
-%{_libdir}/classpath/libjavaio.a
-%{_libdir}/classpath/libjavalang.a
-%{_libdir}/classpath/libjavalangreflect.a
-%{_libdir}/classpath/libjavanet.a
-%{_libdir}/classpath/libjavanio.a
-%{_libdir}/classpath/libjavautil.a
-%{_libdir}/classpath/libjawtgnu.a
+%{_includedir}/jawt.h
+%{_includedir}/jawt_md.h
+%{_includedir}/jni.h
+%{_includedir}/jni_md.h
+%{_infodir}/cp-hacking.info*
+%{_infodir}/cp-tools.info*
+%{_infodir}/cp-vmintegration.info*
