@@ -1,5 +1,5 @@
---- classpath-0.13/doc/hacking.texinfo.orig	2004-11-07 00:44:52.000000000 +0100
-+++ classpath-0.13/doc/hacking.texinfo	2005-02-05 20:16:12.231400496 +0100
+--- classpath-0.96.1/doc/cp-hacking.texinfo.orig	2004-11-07 00:44:52.000000000 +0100
++++ classpath-0.96.1/doc/cp-hacking.texinfo	2005-02-05 20:16:12.231400496 +0100
 @@ -14,9 +14,9 @@
  Copyright (C) 1998,1999,2000,2001,2002,2003,2004 Free Software Foundation, Inc.
  
@@ -12,8 +12,8 @@
  @end direntry
  @end ifnotplaintext
  @end ifinfo
---- classpath-0.13/doc/vmintegration.texinfo.orig	2004-11-25 17:15:50.000000000 +0100
-+++ classpath-0.13/doc/vmintegration.texinfo	2005-02-05 20:16:24.002611000 +0100
+--- classpath-0.96.1/doc/cp-vmintegration.texinfo.orig	2004-11-25 17:15:50.000000000 +0100
++++ classpath-0.96.1/doc/cp-vmintegration.texinfo	2005-02-05 20:16:24.002611000 +0100
 @@ -15,9 +15,9 @@
  Copyright (C) 1998-2002, 2004 Free Software Foundation, Inc.
  
@@ -23,6 +23,20 @@
  @direntry
 -* VM Integration: (vmintegration).   GNU Classpath VM Integration Guide
 +* VM Integration: (vmintegration).	GNU Classpath VM Integration Guide
+ @end direntry
+ @end ifnotplaintext
+ @end ifinfo
+--- classpath-0.96.1/doc/cp-tools.texinfo.orig	2007-03-27 00:58:20.000000000 +0200
++++ classpath-0.96.1/doc/cp-tools.texinfo	2007-12-03 00:44:49.003321117 +0100
+@@ -25,9 +25,9 @@
+ Copyright (C) 2006, 2007 Free Software Foundation, Inc.
+ 
+ @ifnotplaintext
+-@dircategory GNU Libraries
++@dircategory Libraries:
+ @direntry
+-* Classpath Tools: (tools).       GNU Classpath Tools Guide
++* Classpath Tools: (tools).		GNU Classpath Tools Guide
  @end direntry
  @end ifnotplaintext
  @end ifinfo
