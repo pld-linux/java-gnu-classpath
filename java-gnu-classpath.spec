@@ -40,7 +40,7 @@ BuildRequires:	libxml2-devel >= 1:2.6.8
 BuildRequires:	libxslt-devel >= 1.1.11
 BuildRequires:	perl-base
 BuildRequires:	pkgconfig
-BuildRequires:	qt4-build >= 4.1.0
+BuildRequires:	qt4-build >= 4.3.3-3
 BuildRequires:	texinfo >= 4.2
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
@@ -100,7 +100,7 @@ programistów.
 
 %build
 %configure \
-	MOC=qt4-moc \
+	MOC=moc-qt4 \
 	--%{?debug:en}%{!?debug:dis}able-debug \
 	--enable-gstreamer-peer \
 	--enable-gtk-peer \
