@@ -2,21 +2,18 @@
 # TODO: split (awt-gtk, midi-alsa, midi-dssi, ???-qt, ???-gconf, ???-gstreamer, browser???, tools, devel-tools)
 #
 # Conditional build:
-%bcond_with	jikes	# use jikes instead of gcj
+%bcond_with	gcj	# use gcj instead of jdk  [broken]
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
 #
-%if %{without jikes}
-%define	with_gcj	1
-%endif
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		classpath
-Version:	0.96.1
+Version:	0.97
 Release:	0.1
 License:	GPL v2+ with linking exception
 Group:		Libraries
 Source0:	ftp://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
-# Source0-md5:	a2ffb40f13fc76c2dda8f8311b30add9
+# Source0-md5:	a0680ca786d790fbbc99e365a501745a
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	QtCore-devel >= 4.1.0
@@ -32,7 +29,7 @@ BuildRequires:	dssi
 BuildRequires:	gstreamer-devel >= 0.10.10
 BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
 BuildRequires:	gtk+2-devel >= 2:2.8
-%{!?with_jikes:BuildRequires:	jikes >= 1.18}
+%{!?with_gcj:BuildRequires:	jdk >= 1.5}
 BuildRequires:	libmagic-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 1.4.2
@@ -100,6 +97,7 @@ programistów.
 
 %build
 %configure \
+	JAVAC="%{?with_gcj:gcj -C}%{!?with_gcj:javac}" \
 	MOC=moc-qt4 \
 	--%{?debug:en}%{!?debug:dis}able-debug \
 	--enable-gstreamer-peer \
@@ -109,10 +107,8 @@ programistów.
 	--enable-load-library \
 	--enable-qt-peer \
 	--enable-xmlj \
-	--without-ecj \
-	--with%{!?with_gcj:out}-gcj \
-	--with%{!?with_jikes:out}-jikes \
 	--with%{!?with_apidocs:out}-gjdoc \
+	--with-javah=%{?with_gcj:gcjh}%{!?with_gcj:javah} \
 	--disable-examples
 
 %{__make}
@@ -133,10 +129,10 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/classpath/*.la
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post devel	-p	/sbin/postshell
+%post	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun	devel	-p	/sbin/postshell
+%postun	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files
