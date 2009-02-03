@@ -91,6 +91,33 @@ GNU Classpath (Essential Libraries for Java) - development files.
 GNU Classpath (Najważniejsze biblioteki dla Javy) - pliki dla
 programistów.
 
+%package tools
+Summary:        Shared Java tools
+Summary(pl.UTF-8):      Współdzielone narzędzia Javy
+Group:          Development/Languages/Java
+Requires:	%{name} = %{version}-%{release}
+Provides:	jar
+Provides:	java-jre-tools
+Provides:	java-shared
+Obsoletes:	fastjar
+Obsoletes:	jar
+Obsoletes:	java-jre-tools
+Obsoletes:	java-shared
+
+%description tools
+GNU Classpath java tools.
+
+%description tools -l pl.UTF-8
+Narzędzia dla javy GNU Classpath.
+
+%package tools-devel
+Summary:	Shared java tools development files
+Group:		Development/Languages/Java
+Requires:	%{name}-tools = %{version}-%{release}
+
+%description tools-devel
+GNU Classpath java tools development files.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -162,7 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/classpath/glibj.zip
 %{_datadir}/classpath/tools.zip
 
-# tools
+%files tools
 %attr(755,root,root) %{_bindir}/gappletviewer
 %attr(755,root,root) %{_bindir}/gkeytool
 %attr(755,root,root) %{_bindir}/gorbd
@@ -176,7 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/grmiregistry.1*
 %{_mandir}/man1/gtnameserv.1*
 
-# tools-devel
+%files tools-devel
 %attr(755,root,root) %{_bindir}/gjar
 %attr(755,root,root) %{_bindir}/gjarsigner
 %attr(755,root,root) %{_bindir}/gjavah
