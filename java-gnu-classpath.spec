@@ -23,9 +23,9 @@ Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
 # Source0-md5:	90c6571b8b0309e372faa0f9f6255ea9
 Patch0:		%{srcname}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
+BuildRequires:	GConf2-devel >= 2.6.0
 BuildRequires:	QtCore-devel >= 4.1.0
 BuildRequires:	QtGui-devel >= 4.1.0
-BuildRequires:	GConf2-devel >= 2.6.0
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -51,6 +51,8 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xulrunner-devel >= 1.8
 BuildRequires:	zip
+Provides:	jre-X11
+Provides:	jre-alsa
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,14 +75,15 @@ Group:		Documentation
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description apidocs
-Annotated reference of GNU Classpath libraries programming interface including:
+Annotated reference of GNU Classpath libraries programming interface
+including:
 - class lists
 - class members
 - namespaces
 
 %description apidocs -l pl.UTF-8
-Dokumentacja interfejsu programowania bibliotek GNU Classpath z przypisami.
-Zawiera:
+Dokumentacja interfejsu programowania bibliotek GNU Classpath z
+przypisami. Zawiera:
 - listy klas i ich składników
 - listę przestrzeni nazw (namespace)
 
@@ -99,9 +102,9 @@ GNU Classpath (Najważniejsze biblioteki dla Javy) - pliki dla
 programistów.
 
 %package tools
-Summary:        Shared Java tools
-Summary(pl.UTF-8):      Współdzielone narzędzia Javy
-Group:          Development/Languages/Java
+Summary:	Shared Java tools
+Summary(pl.UTF-8):	Współdzielone narzędzia Javy
+Group:		Development/Languages/Java
 Requires:	%{name} = %{version}-%{release}
 Provides:	jar
 Provides:	java-jre-tools
@@ -205,6 +208,7 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %{_javadir}/tools.jar
 
 %files tools
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gappletviewer
 %attr(755,root,root) %{_bindir}/gkeytool
 %attr(755,root,root) %{_bindir}/gorbd
@@ -219,6 +223,7 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %{_mandir}/man1/gtnameserv.1*
 
 %files tools-devel
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gjar
 %attr(755,root,root) %{_bindir}/gjarsigner
 %attr(755,root,root) %{_bindir}/gjavah
