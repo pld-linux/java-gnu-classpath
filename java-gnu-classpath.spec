@@ -186,12 +186,14 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so
 %attr(755,root,root) %{_libdir}/classpath/libgconfpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
+%attr(755,root,root) %{_libdir}/classpath/libgjsmdssi.so
 %attr(755,root,root) %{_libdir}/classpath/libgstreamerpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libjavaio.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavalang.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavalangmanagement.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavalangreflect.so*
+%attr(755,root,root) %{_libdir}/classpath/libjavamath.so
 %attr(755,root,root) %{_libdir}/classpath/libjavanet.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavanio.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavautil.so*
