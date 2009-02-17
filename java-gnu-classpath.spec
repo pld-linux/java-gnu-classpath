@@ -198,14 +198,15 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %attr(755,root,root) %{_libdir}/classpath/libjawt.so
 %attr(755,root,root) %{_libdir}/classpath/libqtpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libxmlj.so*
-%dir %{_libdir}/security
-%{_libdir}/security/classpath.security
-%{_libdir}/logging.properties
 %dir %{_datadir}/classpath
 %{_datadir}/classpath/glibj.zip
 %{_datadir}/classpath/tools.zip
 %{_javadir}/glibj.jar
 %{_javadir}/tools.jar
+# Following files are in /usr/lib, not in %{_libdir}.
+%dir /usr/lib/security
+/usr/lib/security/classpath.security
+/usr/lib/logging.properties
 
 %files tools
 %defattr(644,root,root,755)
