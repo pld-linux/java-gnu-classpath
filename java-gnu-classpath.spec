@@ -5,16 +5,18 @@
 %bcond_with	gcj	# use gcj instead of jdk  [broken]
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
 #
+%define		srcname	classpath
+#
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
-Name:		classpath
+Name:		java-gnu-classpath
 Version:	0.97.2
 Release:	0.1
 License:	GPL v2+ with linking exception
 Group:		Libraries
-Source0:	http://ftp.gnu.org/gnu/classpath/%{name}-%{version}.tar.gz
+Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
 # Source0-md5:	6a35347901ace03c31cc49751b338f31
-Patch0:		%{name}-info.patch
+Patch0:		%{srcname}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	QtCore-devel >= 4.1.0
 BuildRequires:	QtGui-devel >= 4.1.0
@@ -142,13 +144,13 @@ GNU Classpath java tools development files.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{name}-%{version}-apidocs}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{srcname}-%{version}-apidocs}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %if %{with apidocs}
-cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}-apidocs
+cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{srcname}-%{version}-apidocs
 %endif
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/classpath/*.la
@@ -221,7 +223,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
-%{_javadocdir}/%{name}-%{version}-apidocs
+%{_javadocdir}/%{srcname}-%{version}-apidocs
 %endif
 
 %files devel
