@@ -115,18 +115,22 @@ Obsoletes:	java-jre-tools
 Obsoletes:	java-shared
 
 %description tools
-GNU Classpath java tools.
+Java tools - GNU Classpath implementation.
 
 %description tools -l pl.UTF-8
-Narzędzia dla javy GNU Classpath.
+Narzędzia Javy - implementacja GNU Classpath.
 
 %package tools-devel
-Summary:	Shared java tools development files
+Summary:	Shared Java development tools
+Summary(pl.UTF-8):	Współdzielone narzędzia programistyczne Javy
 Group:		Development/Languages/Java
 Requires:	%{name}-tools = %{version}-%{release}
 
 %description tools-devel
-GNU Classpath java tools development files.
+Java development tools - GNU Classpath implementation.
+
+%description tools-devel -l pl.UTF-8
+Narzędzia programistyczne Javy - implementacja GNU Classpath.
 
 %prep
 %setup -q -n %{srcname}-%{version}
