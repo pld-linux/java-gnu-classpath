@@ -10,12 +10,12 @@
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		java-gnu-classpath
-Version:	0.97.2
+Version:	0.98
 Release:	0.1
 License:	GPL v2+ with linking exception
 Group:		Libraries
 Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
-# Source0-md5:	6a35347901ace03c31cc49751b338f31
+# Source0-md5:	90c6571b8b0309e372faa0f9f6255ea9
 Patch0:		%{srcname}-info.patch
 URL:		http://www.gnu.org/software/classpath/classpath.html
 BuildRequires:	QtCore-devel >= 4.1.0
@@ -121,7 +121,7 @@ Requires:	%{name}-tools = %{version}-%{release}
 GNU Classpath java tools development files.
 
 %prep
-%setup -q
+%setup -q -n %{srcname}-%{version}
 %patch0 -p1
 
 %build
