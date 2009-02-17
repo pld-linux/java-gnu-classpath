@@ -1,5 +1,10 @@
 #
-# TODO: split (awt-gtk, midi-alsa, midi-dssi, ???-qt, ???-gconf, ???-gstreamer, browser???, tools, devel-tools)
+# TODO:
+# - split (awt-gtk, midi-alsa, midi-dssi, ???-qt, ???-gconf, ???-gstreamer, browser???)
+#
+# NOTE:
+# - do not package gjdoc. This version of gjdoc is devel. See gjdoc.spec for
+#   stable version.
 #
 # Conditional build:
 %bcond_with	gcj	# use gcj instead of jdk  [broken]
@@ -11,7 +16,7 @@ Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		java-gnu-classpath
 Version:	0.98
-Release:	0.1
+Release:	1
 License:	GPL v2+ with linking exception
 Group:		Libraries
 Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
@@ -144,13 +149,17 @@ GNU Classpath java tools development files.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{srcname}-%{version}-apidocs}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{srcname}-%{version}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+ln -s %{_datadir}/classpath/glibj.zip $RPM_BUILD_ROOT%{_javadir}/glibj.jar
+ln -s %{_datadir}/classpath/tools.zip $RPM_BUILD_ROOT%{_javadir}/tools.jar
+
 %if %{with apidocs}
-cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{srcname}-%{version}-apidocs
+cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{srcname}-%{version}
+ln -s %{srcname}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{srcname} # ghost symlink
 %endif
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/classpath/*.la
@@ -164,6 +173,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
+%post apidocs
+ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
+
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README THANKYOU TODO
@@ -171,7 +183,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so
 %attr(755,root,root) %{_libdir}/classpath/libgconfpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
-%attr(755,root,root) %{_libdir}/classpath/libgjsmdssi.so
 %attr(755,root,root) %{_libdir}/classpath/libgstreamerpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libjavaio.so*
@@ -190,6 +201,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/classpath
 %{_datadir}/classpath/glibj.zip
 %{_datadir}/classpath/tools.zip
+%{_javadir}/glibj.jar
+%{_javadir}/tools.jar
 
 %files tools
 %attr(755,root,root) %{_bindir}/gappletviewer
@@ -223,7 +236,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
-%{_javadocdir}/%{srcname}-%{version}-apidocs
+%{_javadocdir}/%{srcname}-%{version}
+%ghost %{_javadocdir}/%{srcname}
 %endif
 
 %files devel
