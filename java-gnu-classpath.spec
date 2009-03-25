@@ -16,7 +16,7 @@ Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		java-gnu-classpath
 Version:	0.98
-Release:	1
+Release:	2
 License:	GPL v2+ with linking exception
 Group:		Libraries
 Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
