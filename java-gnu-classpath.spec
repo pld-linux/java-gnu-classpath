@@ -137,6 +137,9 @@ Narzędzia programistyczne Javy - implementacja GNU Classpath.
 %patch0 -p1
 
 %build
+
+ECJ_JAR=$(find-jar ecj)
+
 %configure \
 	JAVAC="%{?with_gcj:gcj -C}%{!?with_gcj:javac}" \
 	MOC=moc-qt4 \
@@ -150,6 +153,7 @@ Narzędzia programistyczne Javy - implementacja GNU Classpath.
 	--enable-xmlj \
 	--with%{!?with_apidocs:out}-gjdoc \
 	--with-javah=%{?with_gcj:gcjh}%{!?with_gcj:javah} \
+	--with-ecj-jar=$ECJ_JAR \
 	--disable-examples
 
 %{__make}
