@@ -18,7 +18,7 @@ Name:		java-gnu-classpath
 Version:	0.98
 Release:	2
 License:	GPL v2+ with linking exception
-Group:		Libraries
+Group:		Libraries/Java
 Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
 # Source0-md5:	90c6571b8b0309e372faa0f9f6255ea9
 Patch0:		%{srcname}-info.patch
