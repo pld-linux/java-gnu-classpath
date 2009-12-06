@@ -30,7 +30,7 @@ BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
 BuildRequires:	cairo-devel >= 1.1.8
-BuildRequires:	dssi
+BuildRequires:	dssi-devel
 %{?with_gcj:BuildRequires:	gcc-java >= 5:4.0.2}
 %{?with_apidocs:BuildRequires:	gjdoc}
 BuildRequires:	gstreamer-devel >= 0.10.10
