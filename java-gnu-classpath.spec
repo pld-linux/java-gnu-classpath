@@ -8,6 +8,7 @@
 #
 # Conditional build:
 %bcond_with	gcj	# use gcj instead of jdk  [broken]
+%bcond_with	plugin	# build gcjwebplugin
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
 #
 %define		srcname	classpath
@@ -16,7 +17,7 @@ Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		java-gnu-classpath
 Version:	0.98
-Release:	3
+Release:	4
 License:	GPL v2+ with linking exception
 Group:		Libraries/Java
 Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
@@ -151,6 +152,7 @@ ECJ_JAR=$(find-jar ecj)
 	--enable-load-library \
 	--enable-qt-peer \
 	--enable-xmlj \
+	%{!?with_plugin:--disable-plugin} \
 	--with%{!?with_apidocs:out}-gjdoc \
 	--with-javah=%{?with_gcj:gcjh}%{!?with_gcj:javah} \
 	--with-ecj-jar=$ECJ_JAR \
@@ -191,7 +193,7 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README THANKYOU TODO
 %dir %{_libdir}/classpath
-%attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so
+%{?with_plugin:%attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so}
 %attr(755,root,root) %{_libdir}/classpath/libgconfpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
 %attr(755,root,root) %{_libdir}/classpath/libgjsmdssi.so
