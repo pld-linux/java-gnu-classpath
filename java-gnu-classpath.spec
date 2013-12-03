@@ -10,14 +10,13 @@
 %bcond_with	gcj	# use gcj instead of jdk  [broken]
 %bcond_with	plugin	# build gcjwebplugin
 %bcond_with	apidocs	# prepare API documentation (over 200MB)
-#
+
 %define		srcname	classpath
-#
 Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		java-gnu-classpath
 Version:	0.98
-Release:	5
+Release:	6
 License:	GPL v2+ with linking exception
 Group:		Libraries/Java
 Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
@@ -52,6 +51,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xulrunner-devel >= 1.8
 BuildRequires:	zip
+Requires:	jpackage-utils
 Provides:	jre-X11
 Provides:	jre-alsa
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
