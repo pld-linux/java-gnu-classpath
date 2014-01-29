@@ -33,8 +33,8 @@ BuildRequires:	cairo-devel >= 1.1.8
 BuildRequires:	dssi-devel
 %{?with_gcj:BuildRequires:	gcc-java >= 5:4.0.2}
 %{?with_apidocs:BuildRequires:	gjdoc}
-BuildRequires:	gstreamer-devel >= 0.10.10
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.10
+BuildRequires:	gstreamer0.10-devel >= 0.10.10
+BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.10
 BuildRequires:	gtk+2-devel >= 2:2.8
 %{!?with_gcj:BuildRequires:	jdk >= 1.5}
 BuildRequires:	libmagic-devel
