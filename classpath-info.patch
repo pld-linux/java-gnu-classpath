@@ -40,3 +40,14 @@
  @end direntry
  @end ifnotplaintext
  @end ifinfo
+@@ -2022,7 +2022,9 @@
+ 
+ @item Virtual Machine Options
+ @xref{Virtual Machine Options,,Options Controlling Gjdoc Behavior}.
+-@gccoptlist{-classpath}  @gccoptlist{-bootclasspath}  @gccoptlist{-J}@var{vmopt}
++@gccoptlist{-classpath}
++@gccoptlist{-bootclasspath}
++@gccoptlist{-J@var{vmopt}}
+ 
+ @end table
+ 

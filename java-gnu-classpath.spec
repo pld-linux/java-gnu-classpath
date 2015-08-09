@@ -145,6 +145,7 @@ ECJ_JAR=$(find-jar ecj)
 	JAVAC="%{?with_gcj:gcj -C}%{!?with_gcj:javac}" \
 	MOC=moc-qt4 \
 	--%{?debug:en}%{!?debug:dis}able-debug \
+	--disable-Werror \
 	--enable-gstreamer-peer \
 	--enable-gtk-peer \
 	--enable-java \
