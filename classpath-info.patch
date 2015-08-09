@@ -29,9 +29,9 @@
 --- classpath-0.97/doc/cp-tools.texinfo.orig	2008-02-18 19:33:34.000000000 +0100
 +++ classpath-0.97/doc/cp-tools.texinfo	2008-03-01 22:21:33.656463898 +0100
 @@ -25,9 +25,9 @@
- Copyright (C) 2006, 2007 Free Software Foundation, Inc.
- 
  @ifnotplaintext
+ @setchapternewpage on
+ 
 -@dircategory GNU Libraries
 +@dircategory Libraries:
  @direntry
