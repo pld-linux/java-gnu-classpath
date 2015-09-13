@@ -7,9 +7,10 @@
 #   stable version.
 #
 # Conditional build:
-%bcond_with	gcj	# use gcj instead of jdk  [broken]
-%bcond_with	plugin	# build gcjwebplugin
-%bcond_with	apidocs	# prepare API documentation (over 200MB)
+%bcond_with	gcj		# use gcj instead of jdk  [broken]
+%bcond_with	gjdoc		# build gjdoc here (instead of external gjdoc package)
+%bcond_with	webplugin	# build gcjwebplugin [uses obsolete NPAPI]
+%bcond_with	apidocs		# prepare API documentation (over 200MB)
 
 %define		srcname	classpath
 Summary:	GNU Classpath (Essential Libraries for Java)
@@ -27,21 +28,30 @@ BuildRequires:	GConf2-devel >= 2.6.0
 BuildRequires:	QtCore-devel >= 4.1.0
 BuildRequires:	QtGui-devel >= 4.1.0
 BuildRequires:	alsa-lib-devel
-BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake >= 1:1.7
+# cantrl, runantlr or antlr
+%{?with_gjdoc:BuildRequires:	antlr >= 2.7.1}
+BuildRequires:	autoconf >= 2.65
+BuildRequires:	automake >= 1:1.9
 BuildRequires:	cairo-devel >= 1.1.8
 BuildRequires:	dssi-devel
+BuildRequires:	freetype-devel >= 2
 %{?with_gcj:BuildRequires:	gcc-java >= 5:4.0.2}
-%{?with_apidocs:BuildRequires:	gjdoc}
+BuildRequires:	gdk-pixbuf2-devel >= 2.0
+%if %{with apidocs} && %{without gjdoc}
+BuildRequires:	gjdoc
+%endif
+BuildRequires:	glib2-devel >= 1:2.2
+BuildRequires:	gmp-devel >= 3.1
 BuildRequires:	gstreamer0.10-devel >= 0.10.10
 BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.10
 BuildRequires:	gtk+2-devel >= 2:2.8
 %{!?with_gcj:BuildRequires:	jdk >= 1.5}
 BuildRequires:	libmagic-devel
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool >= 1.4.2
+BuildRequires:	libtool >= 2:2
 BuildRequires:	libxml2-devel >= 1:2.6.8
 BuildRequires:	libxslt-devel >= 1.1.11
+BuildRequires:	pango-devel
 BuildRequires:	perl-base
 BuildRequires:	pkgconfig
 BuildRequires:	qt4-build >= 4.3.3-3
@@ -49,7 +59,8 @@ BuildRequires:	texinfo >= 4.2
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
-BuildRequires:	xulrunner-devel >= 1.8
+# pkgconfig: one of mozilla-plugin, ((mozilla-)?firefox|xulrunner|seamonkey|iceape)-{plugin,xpcom}
+%{?with_webplugin:BuildRequires:	xulrunner-devel >= 1.8}
 BuildRequires:	zip
 Requires:	jpackage-utils
 Provides:	jre-X11
@@ -141,23 +152,22 @@ Narzędzia programistyczne Javy - implementacja GNU Classpath.
 %patch0 -p1
 
 %build
-
 ECJ_JAR=$(find-jar ecj)
 
 %configure \
 	JAVAC="%{?with_gcj:gcj -C}%{!?with_gcj:javac}" \
 	MOC=moc-qt4 \
-	--%{?debug:en}%{!?debug:dis}able-debug \
 	--disable-Werror \
+	--enable-debug%{!?debug:=no} \
+	%{!?with_gjdoc:--disable-gjdoc} \
 	--enable-gstreamer-peer \
 	--enable-gtk-peer \
-	--enable-java \
 	--enable-jni \
 	--enable-load-library \
+	%{?with_webplugin:--enable-plugin} \
 	--enable-qt-peer \
 	--enable-xmlj \
-	%{!?with_plugin:--disable-plugin} \
-	--with%{!?with_apidocs:out}-gjdoc \
+	--with-gjdoc%{!?with_apidocs:=no} \
 	--with-javah=%{?with_gcj:gcjh}%{!?with_gcj:javah} \
 	--with-ecj-jar=$ECJ_JAR \
 	--disable-examples
@@ -179,7 +189,15 @@ cp -afr doc/api/html/* $RPM_BUILD_ROOT%{_javadocdir}/%{srcname}-%{version}
 ln -s %{srcname}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{srcname} # ghost symlink
 %endif
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/classpath/*.la
+# native modules for Java, no need for .la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/classpath/*.la
+
+# no binary here, belongs to gcc-java
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/gcjh.1
+
+%if %{without gjdoc}
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/gjdoc.1
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -197,7 +215,7 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README THANKYOU TODO
 %dir %{_libdir}/classpath
-%{?with_plugin:%attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so}
+%{?with_webplugin:%attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so}
 %attr(755,root,root) %{_libdir}/classpath/libgconfpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
 %attr(755,root,root) %{_libdir}/classpath/libgjsmdssi.so
@@ -252,8 +270,10 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %{_mandir}/man1/gjavah.1*
 %{_mandir}/man1/gnative2ascii.1*
 %{_mandir}/man1/gserialver.1*
-# no bin
-#%{_mandir}/man1/gcjh.1*
+%if %{with gjdoc}
+%attr(755,root,root) %{_bindir}/gjdoc
+%{_mandir}/man1/gjdoc.1*
+%endif
 
 %if %{with apidocs}
 %files apidocs
