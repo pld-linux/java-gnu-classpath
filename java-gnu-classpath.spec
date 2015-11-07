@@ -1,7 +1,4 @@
 #
-# TODO:
-# - split (awt-gtk, midi-alsa, midi-dssi, ???-qt, ???-gconf, ???-gstreamer, browser???)
-#
 # NOTE:
 # - do not package gjdoc. This version of gjdoc is devel. See gjdoc.spec for
 #   stable version.
@@ -17,7 +14,7 @@ Summary:	GNU Classpath (Essential Libraries for Java)
 Summary(pl.UTF-8):	GNU Classpath (Najważniejsze biblioteki dla Javy)
 Name:		java-gnu-classpath
 Version:	0.99
-Release:	2
+Release:	3
 License:	GPL v2+ with linking exception
 Group:		Libraries/Java
 Source0:	http://ftp.gnu.org/gnu/classpath/%{srcname}-%{version}.tar.gz
@@ -83,38 +80,90 @@ wirtualnymi maszynami i kompilatorami języka Java. Zawiera wszystkie
 natywne metody i główne klasy niezbędne dla kompletnej funkcjonalności
 środowiska Javy.
 
-%package apidocs
-Summary:	API documentation
-Summary(pl.UTF-8):	Dokumentacja API
-Group:		Documentation
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+%package awt
+Summary:	GNU Classpath - AWT (Abstract Window Toolkit) classes, with GTK+ peer
+Summary(pl.UTF-8):	GNU Classpath - klasy AWT (Abstract Window Toolkit) z interfejsem GTK+
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
 
-%description apidocs
-Annotated reference of GNU Classpath libraries programming interface
-including:
-- class lists
-- class members
-- namespaces
+%description awt
+GNU Classpath - AWT (Abstract Window Toolkit) classes, with GTK+ peer.
 
-%description apidocs -l pl.UTF-8
-Dokumentacja interfejsu programowania bibliotek GNU Classpath z
-przypisami. Zawiera:
-- listy klas i ich składników
-- listę przestrzeni nazw (namespace)
+%description awt -l pl.UTF-8
+GNU Classpath - klasy AWT (Abstract Window Toolkit - abstrakcyjny
+toolkit okienkowy) z interfejsem GTK+.
 
-%package devel
-Summary:	Development files for GNU Classpath
-Summary(pl.UTF-8):	Pliki dla programistów używających GNU Classpath
-Group:		Development/Libraries
-Obsoletes:	classpath-static
-# doesn't require base
+%package awt-qt
+Summary:	GNU Classpath - Qt peer for AWT classes
+Summary(pl.UTF-8):	GNU Classpath - interfejs Qt dla klas AWT
+Group:		X11/Libraries
+Requires:	%{name}-awt = %{version}-%{release}
 
-%description devel
-GNU Classpath (Essential Libraries for Java) - development files.
+%description awt-qt
+GNU Classpath - Qt peer for AWT classes.
 
-%description devel -l pl.UTF-8
-GNU Classpath (Najważniejsze biblioteki dla Javy) - pliki dla
-programistów.
+%description awt-qt -l pl.UTF-8
+GNU Classpath - interfejs Qt dla klas AWT.
+
+%package sound-gstreamer
+Summary:	GNU Classpath - GStreamer peer for gnu.javax.sound.sampled classes
+Summary(pl.UTF-8):	GNU Classpath - obsługa GStreamera dla klas gnu.javax.sound.sampled
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description sound-gstreamer
+GNU Classpath - GStreamer peer for gnu.javax.sound.sampled classes.
+
+%description sound-gstreamer -l pl.UTF-8
+GNU Classpath - obsługa GStreamera dla klas gnu.javax.sound.sampled.
+
+%package sound-midi-alsa
+Summary:	GNU Classpath - ALSA providers for gnu.javax.sound.midi classes
+Summary(pl.UTF-8):	GNU Classpath - obsługa systemu ALSA dla klas gnu.javax.sound.midi
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description sound-midi-alsa
+GNU Classpath - ALSA providers for gnu.javax.sound.midi classes.
+
+%description sound-midi-alsa -l pl.UTF-8
+GNU Classpath - obsługa systemu ALSA dla klas gnu.javax.sound.midi.
+
+%package sound-midi-dssi
+Summary:	GNU Classpath - DSSI providers for gnu.javax.sound.midi classes
+Summary(pl.UTF-8):	GNU Classpath - obsługa systemu DSSI dla klas gnu.javax.sound.midi
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description sound-midi-dssi
+GNU Classpath - DSSI providers for gnu.javax.sound.midi classes.
+
+%description sound-midi-dssi -l pl.UTF-8
+GNU Classpath - obsługa systemu DSSI dla klas gnu.javax.sound.midi.
+
+%package preferences-gconf
+Summary:	GNU Classpath - GConf preferences peer
+Summary(pl.UTF-8):	GNU Classpath - obsługa przechowywania ustawień przez GConf
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description preferences-gconf
+GNU Classpath - GConf preferences peer.
+
+%description preferences-gconf -l pl.UTF-8
+GNU Classpath - obsługa przechowywania ustawień przez GConf.
+
+%package -n browser-plugin-java-gnu-classpath
+Summary:	GNU Classpath - web browser plugin to execute Java applets
+Summary(pl.UTF-8):	GNU Classpath - wtyczka przeglądarek WWW do wykonywania apletów Javy
+Group:		Applications/Networking
+Requires:	%{name} = %{version}-%{release}
+
+%description -n browser-plugin-java-gnu-classpath
+GNU Classpath - web browser plugin to execute Java applets.
+
+%description -n browser-plugin-java-gnu-classpath -l pl.UTF-8
+GNU Classpath - wtyczka przeglądarek WWW do wykonywania apletów Javy.
 
 %package tools
 Summary:	Shared Java tools
@@ -147,18 +196,57 @@ Java development tools - GNU Classpath implementation.
 %description tools-devel -l pl.UTF-8
 Narzędzia programistyczne Javy - implementacja GNU Classpath.
 
+%package devel
+Summary:	Development files for GNU Classpath
+Summary(pl.UTF-8):	Pliki dla programistów używających GNU Classpath
+Group:		Development/Libraries
+Obsoletes:	classpath-static
+# doesn't require base
+
+%description devel
+GNU Classpath (Essential Libraries for Java) - development files.
+
+%description devel -l pl.UTF-8
+GNU Classpath (Najważniejsze biblioteki dla Javy) - pliki dla
+programistów.
+
+%package apidocs
+Summary:	API documentation
+Summary(pl.UTF-8):	Dokumentacja API
+Group:		Documentation
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description apidocs
+Annotated reference of GNU Classpath libraries programming interface
+including:
+- class lists
+- class members
+- namespaces
+
+%description apidocs -l pl.UTF-8
+Dokumentacja interfejsu programowania bibliotek GNU Classpath z
+przypisami. Zawiera:
+- listy klas i ich składników
+- listę przestrzeni nazw (namespace)
+
 %prep
 %setup -q -n %{srcname}-%{version}
 %patch0 -p1
 
 %build
-ECJ_JAR=$(find-jar ecj)
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 
+ECJ_JAR=$(find-jar ecj)
 %configure \
 	JAVAC="%{?with_gcj:gcj -C}%{!?with_gcj:javac}" \
 	MOC=moc-qt4 \
 	--disable-Werror \
 	--enable-debug%{!?debug:=no} \
+	--enable-default-preferences-peer=file \
 	%{!?with_gjdoc:--disable-gjdoc} \
 	--enable-gstreamer-peer \
 	--enable-gtk-peer \
@@ -215,12 +303,6 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog NEWS README THANKYOU TODO
 %dir %{_libdir}/classpath
-%{?with_webplugin:%attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so}
-%attr(755,root,root) %{_libdir}/classpath/libgconfpeer.so
-%attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
-%attr(755,root,root) %{_libdir}/classpath/libgjsmdssi.so
-%attr(755,root,root) %{_libdir}/classpath/libgstreamerpeer.so
-%attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libjavaio.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavalang.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavalangmanagement.so*
@@ -229,8 +311,6 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %attr(755,root,root) %{_libdir}/classpath/libjavanet.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavanio.so*
 %attr(755,root,root) %{_libdir}/classpath/libjavautil.so*
-%attr(755,root,root) %{_libdir}/classpath/libjawt.so
-%attr(755,root,root) %{_libdir}/classpath/libqtpeer.so
 %attr(755,root,root) %{_libdir}/classpath/libxmlj.so*
 %dir %{_datadir}/classpath
 %{_datadir}/classpath/glibj.zip
@@ -241,6 +321,37 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %dir /usr/lib/security
 /usr/lib/security/classpath.security
 /usr/lib/logging.properties
+
+%files awt
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/classpath/libjawt.so
+%attr(755,root,root) %{_libdir}/classpath/libgtkpeer.so
+
+%files awt-qt
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/classpath/libqtpeer.so
+
+%files sound-gstreamer
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/classpath/libgstreamerpeer.so
+
+%files sound-midi-alsa
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/classpath/libgjsmalsa.so
+
+%files sound-midi-dssi
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/classpath/libgjsmdssi.so
+
+%files preferences-gconf
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/classpath/libgconfpeer.so
+
+%if %{with webplugin}
+%files -n browser-plugin-java-gnu-classpath
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/classpath/libgcjwebplugin.so
+%endif
 
 %files tools
 %defattr(644,root,root,755)
@@ -275,13 +386,6 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %{_mandir}/man1/gjdoc.1*
 %endif
 
-%if %{with apidocs}
-%files apidocs
-%defattr(644,root,root,755)
-%{_javadocdir}/%{srcname}-%{version}
-%ghost %{_javadocdir}/%{srcname}
-%endif
-
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/jawt.h
@@ -291,3 +395,10 @@ ln -nfs %{srcname}-%{version} %{_javadocdir}/%{srcname}
 %{_infodir}/cp-hacking.info*
 %{_infodir}/cp-tools.info*
 %{_infodir}/cp-vmintegration.info*
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%{_javadocdir}/%{srcname}-%{version}
+%ghost %{_javadocdir}/%{srcname}
+%endif
